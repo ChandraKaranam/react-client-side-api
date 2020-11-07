@@ -2,24 +2,30 @@ import React, { Component } from 'react';
 import EmployeeService from '../services/EmployeeService';
 
 class ListEmployeeComponent extends Component {
-    constructor(props)
-    {
+    constructor(props) {
         super(props)
         this.state = {
             employees: []
         }
+        this.addEmployee = this.addEmployee.bind(this);
     }
-   componentDidMount(){
-       EmployeeService.getEmployees().then((res)=>{
-           this.setState({employees: res.data})
-       });
-   }
+    componentDidMount() {
+        EmployeeService.getEmployees().then((res) => {
+            this.setState({ employees: res.data })
+        });
+    }
+    addEmployee() {
+        this.props.history.push('/add-employee')
+    }
     render() {
         return (
             <div>
                 <h2 className="text-center">Employees List</h2>
                 <div className="row">
-                    <table className="table table-stripped table-bordered"> 
+                    <button className="btn btn-primary" onClick={this.addEmployee}>Add Employee</button>
+                </div>
+                <div className="row">
+                    <table className="table table-stripped table-bordered">
                         <thead>
                             <tr>
                                 <th>Employee First Name</th>
@@ -31,13 +37,13 @@ class ListEmployeeComponent extends Component {
                         <tbody>
                             {
                                 this.state.employees.map(
-                                    employee => 
-                                    <tr key={employee.id}>
-                                        <td>{employee.firstName}</td>
-                                        <td>{employee.lastName}</td>
-                                        <td>{employee.emailId}</td>
-                                      
-                                    </tr>
+                                    employee =>
+                                        <tr key={employee.id}>
+                                            <td>{employee.firstName}</td>
+                                            <td>{employee.lastName}</td>
+                                            <td>{employee.emailId}</td>
+
+                                        </tr>
                                 )
                             }
                         </tbody>
